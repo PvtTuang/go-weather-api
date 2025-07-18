@@ -25,7 +25,7 @@ func weatherHandler(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		http.Error(w, "Error fetching weather data", http.StatusInternalServerError)
+		http.Error(w, "เกิดข้อผิดพลาดในการดึงข้อมูลสภาพอากาศ", http.StatusInternalServerError)
 		return
 	}
 	defer resp.Body.Close()
@@ -33,7 +33,7 @@ func weatherHandler(w http.ResponseWriter, r *http.Request) {
 	var data WeatherData
 
 	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-		http.Error(w, "Error decoding weather data", http.StatusInternalServerError)
+		http.Error(w, "ข้อผิดพลาดในการถอดรหัสข้อมูลสภาพอากาศ", http.StatusInternalServerError)
 		return
 	}
 
@@ -51,6 +51,6 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/weather/{city}", weatherHandler).Methods("GET")
 
-	fmt.Println("Server running on :8080")
+	fmt.Println("เซิร์ฟเวอร์กำลังทำงานอยู่บน :8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
